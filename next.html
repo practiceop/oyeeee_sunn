@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Hello Kitty Memories 💗</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffe6f2;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated floating Hello Kitty background */
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .kitty-face {
+            position: absolute;
+            opacity: 0.12;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .kitty-face:nth-child(1) { left: 10%; top: 15%; animation-delay: 0s; animation-duration: 25s; }
+        .kitty-face:nth-child(2) { right: 15%; top: 25%; animation-delay: 3s; animation-duration: 22s; }
+        .kitty-face:nth-child(3) { left: 20%; bottom: 20%; animation-delay: 6s; animation-duration: 28s; }
+        .kitty-face:nth-child(4) { right: 25%; bottom: 30%; animation-delay: 9s; animation-duration: 24s; }
+        .kitty-face:nth-child(5) { left: 50%; top: 10%; animation-delay: 12s; animation-duration: 26s; }
+
+        .ribbon {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 18s infinite ease-in-out;
+        }
+
+        .ribbon:nth-child(6) { left: 30%; top: 40%; animation-delay: 2s; animation-duration: 20s; }
+        .ribbon:nth-child(7) { right: 35%; top: 50%; animation-delay: 5s; animation-duration: 23s; }
+        .ribbon:nth-child(8) { left: 60%; bottom: 15%; animation-delay: 8s; animation-duration: 21s; }
+
+        .sparkle {
+            position: absolute;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        .sparkle:nth-child(9) { left: 15%; top: 30%; animation-delay: 0s; }
+        .sparkle:nth-child(10) { right: 20%; top: 45%; animation-delay: 1s; }
+        .sparkle:nth-child(11) { left: 40%; bottom: 25%; animation-delay: 2s; }
+        .sparkle:nth-child(12) { right: 40%; bottom: 35%; animation-delay: 1.5s; }
+        .sparkle:nth-child(13) { left: 70%; top: 20%; animation-delay: 0.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(15px, -20px) rotate(5deg); }
+            50% { transform: translate(-10px, -30px) rotate(-3deg); }
+            75% { transform: translate(-20px, -15px) rotate(4deg); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.3); }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 3.5rem;
+            color: #ff4d6d;
+            text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #b366ff;
+            font-weight: 300;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-bottom: 50px;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 25px;
+            padding: 20px;
+            border: 3px solid #ffc6dd;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(255, 77, 109, 0.25);
+        }
+
+        .memory-image {
+            width: 100%;
+            height: 0;
+            padding-bottom: 75%; /* 4:3 Aspect ratio */
+            border-radius: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #ffb3d1;
+        }
+
+        .memory-image img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            transition: transform 0.5s ease;
+        }
+        
+        .memory-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Adding lazy loading effect */
+        .memory-image img.loading {
+            filter: blur(10px);
+            transition: filter 0.3s ease;
+        }
+
+        .caption {
+            font-size: 1.1rem;
+            color: #ff4d6d;
+            text-align: center;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #b366ff;
+            font-size: 1.1rem;
+        }
+
+        .next-page-btn {
+            display: inline-block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ff4d6d, #ff8fab);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .next-page-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.4);
+            background: linear-gradient(135deg, #ff8fab, #ff4d6d);
+        }
+
+        .next-page-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .heart-icon {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .gallery { 
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px; 
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .gallery { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px; 
+            }
+            h1 { font-size: 3rem; }
+            .container { padding: 40px 15px; }
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1rem; }
+            .gallery { 
+                grid-template-columns: 1fr;
+                gap: 20px; 
+            }
+            .memory-card {
+                padding: 15px;
+            }
+            .caption {
+                font-size: 1rem;
+            }
+            .next-page-btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Decorations -->
+    <div class="bg-decoration">
+        <!-- Hello Kitty Faces (SVG) -->
+        <svg class="kitty-face" width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="#fff"/>
+            <circle cx="45" cy="55" r="4" fill="#000"/>
+            <circle cx="75" cy="55" r="4" fill="#000"/>
+            <ellipse cx="60" cy="70" rx="3" ry="5" fill="#ffb3d1"/>
+            <line x1="35" y1="50" x2="20" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="55" x2="20" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="60" x2="20" y2="65" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="50" x2="100" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="55" x2="100" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="60" x2="100" y2="65" stroke="#000" stroke-width="2"/>
+            <path d="M 20,25 Q 30,15 40,25" fill="#ff4d6d"/>
+        </svg>
+
+        <svg class="kitty-face" width="100" height="100" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="#fff"/>
+            <circle cx="45" cy="55" r="4" fill="#000"/>
+            <circle cx="75" cy="55" r="4" fill="#000"/>
+            <ellipse cx="60" cy="70" rx="3" ry="5" fill="#ffb3d1"/>
+            <line x1="35" y1="50" x2="20" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="55" x2="20" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="60" x2="20" y2="65" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="50" x2="100" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="55" x2="100" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="60" x2="100" y2="65" stroke="#000" stroke-width="2"/>
+            <path d="M 20,25 Q 30,15 40,25" fill="#ff4d6d"/>
+        </svg>
+
+        <svg class="kitty-face" width="90" height="90" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="#fff"/>
+            <circle cx="45" cy="55" r="4" fill="#000"/>
+            <circle cx="75" cy="55" r="4" fill="#000"/>
+            <ellipse cx="60" cy="70" rx="3" ry="5" fill="#ffb3d1"/>
+            <line x1="35" y1="50" x2="20" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="55" x2="20" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="60" x2="20" y2="65" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="50" x2="100" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="55" x2="100" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="60" x2="100" y2="65" stroke="#000" stroke-width="2"/>
+            <path d="M 20,25 Q 30,15 40,25" fill="#ff4d6d"/>
+        </svg>
+
+        <svg class="kitty-face" width="110" height="110" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="#fff"/>
+            <circle cx="45" cy="55" r="4" fill="#000"/>
+            <circle cx="75" cy="55" r="4" fill="#000"/>
+            <ellipse cx="60" cy="70" rx="3" ry="5" fill="#ffb3d1"/>
+            <line x1="35" y1="50" x2="20" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="55" x2="20" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="60" x2="20" y2="65" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="50" x2="100" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="55" x2="100" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="60" x2="100" y2="65" stroke="#000" stroke-width="2"/>
+            <path d="M 20,25 Q 30,15 40,25" fill="#ff4d6d"/>
+        </svg>
+
+        <svg class="kitty-face" width="95" height="95" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="#fff"/>
+            <circle cx="45" cy="55" r="4" fill="#000"/>
+            <circle cx="75" cy="55" r="4" fill="#000"/>
+            <ellipse cx="60" cy="70" rx="3" ry="5" fill="#ffb3d1"/>
+            <line x1="35" y1="50" x2="20" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="55" x2="20" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="35" y1="60" x2="20" y2="65" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="50" x2="100" y2="45" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="55" x2="100" y2="55" stroke="#000" stroke-width="2"/>
+            <line x1="85" y1="60" x2="100" y2="65" stroke="#000" stroke-width="2"/>
+            <path d="M 20,25 Q 30,15 40,25" fill="#ff4d6d"/>
+        </svg>
+
+        <!-- Ribbons -->
+        <svg class="ribbon" width="60" height="60" viewBox="0 0 60 60">
+            <path d="M 30,10 L 25,25 L 10,30 L 25,35 L 30,50 L 35,35 L 50,30 L 35,25 Z" fill="#ff4d6d"/>
+        </svg>
+
+        <svg class="ribbon" width="70" height="70" viewBox="0 0 60 60">
+            <path d="M 30,10 L 25,25 L 10,30 L 25,35 L 30,50 L 35,35 L 50,30 L 35,25 Z" fill="#b366ff"/>
+        </svg>
+
+        <svg class="ribbon" width="55" height="55" viewBox="0 0 60 60">
+            <path d="M 30,10 L 25,25 L 10,30 L 25,35 L 30,50 L 35,35 L 50,30 L 35,25 Z" fill="#ffb3d1"/>
+        </svg>
+
+        <!-- Sparkles -->
+        <div class="sparkle" style="font-size: 20px;">✨</div>
+        <div class="sparkle" style="font-size: 24px;">💗</div>
+        <div class="sparkle" style="font-size: 18px;">✨</div>
+        <div class="sparkle" style="font-size: 22px;">💗</div>
+        <div class="sparkle" style="font-size: 20px;">✨</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <h1>Oyee , Sunoo 💗</h1>
+            <p class="subtitle">Every moment with you is magical ✨</p>
+        </header>
+
+        <div class="gallery">
+            <div class="memory-card">
+                <div class="memory-image">
+                    <img src="img1.jpg" alt="Hello Kitty Memory 1" loading="lazy" class="loading">
+                </div>
+                <p class="caption">Yaar, tere bina har pal itna khali lagta hai... bohot miss karta hoon tujhe �</p>
+            </div>
+
+            <div class="memory-card">
+                <div class="memory-image">
+                    <img src="img2.jpg" alt="Hello Kitty Memory 2" loading="lazy" class="loading">
+                </div>
+                <p class="caption">Raat ko sone se pehle bas teri baatein yaad aati hain... wish tu mere paas hoti 🥺</p>
+            </div>
+
+            <div class="memory-card">
+                <div class="memory-image">
+                    <img src="img3.jpg" alt="Hello Kitty Memory 3" loading="lazy" class="loading">
+                </div>
+                <p class="caption">Teri hasi, teri baatein, sab kuch miss karta hu... jaldi milenge hum . 💞</p>
+            </div>
+
+            <div class="memory-card">
+                <div class="memory-image">
+                    <img src="img4.jpg" alt="Hello Kitty Memory 4" loading="lazy" class="loading">
+                </div>
+                <p class="caption">Distance toh hai, par dil toh humesha tere paas hi hai... miss you so much 🩷</p>
+            </div>
+
+            <div class="memory-card">
+                <div class="memory-image">
+                    <img src="img5.jpg" alt="Hello Kitty Memory 5" loading="lazy" class="loading">
+                </div>
+                <p class="caption">Tere saath baat karna is the best feeling ever... bohot yaad ati hy  😔</p>
+            </div>
+
+            <div class="memory-card">
+                <div class="memory-image">
+                    <img src="img6.jpg" alt="Hello Kitty Memory 6" loading="lazy" class="loading">
+                </div>
+                <p class="caption">Tu mere dil ke bohot karib hai... har waqt bas teri yaad mein khoya rehta hoon 💕</p>
+            </div>
+
+            
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <button class="next-page-btn" onclick="goToNextPage()">
+                Click Here 💕 →
+            </button>
+        </div>
+
+        <footer>
+            <p class="heart-icon">💕</p>
+            <p>Tere liye banaya hai, kyunki tu sabse special hai 🎀</p>
+        </footer>
+    </div>
+
+      <audio id="bgMusic" loop>
+  <source src="song3.mp3" type="audio/mpeg">
+</audio>
+
+    <script>
+        function goToNextPage() {
+            // Smooth scroll to top first
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            // After scroll animation, redirect to next page
+            setTimeout(() => {
+                // Replace with your actual next page URL
+                window.location.href = 'img.html';
+            }, 800);
+        }
+
+
+        let musicStarted = false;
+
+function startMusic() {
+  if (musicStarted) return;
+
+  const bgMusic = document.getElementById("bgMusic");
+  if (bgMusic) {
+    bgMusic.volume = 0.5;
+    bgMusic.play().then(() => {
+      musicStarted = true;
+      console.log("Music started");
+    }).catch((err) => {
+      console.warn("Music autoplay blocked:", err);
+    });
+  }
+}
+
+document.body.addEventListener("click", startMusic, { once: true });
+document.body.addEventListener("touchstart", startMusic, { once: true });
+        
+        // Add image loading handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.memory-image img');
+            
+            // Setup intersection observer for lazy loading
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const src = img.getAttribute('src');
+                        
+                        // Only load images when they're in viewport
+                        const newImg = new Image();
+                        newImg.src = src;
+                        
+                        newImg.onload = () => {
+                            img.classList.remove('loading');
+                        };
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            // Apply to all images
+            images.forEach(img => {
+                observer.observe(img);
+                
+                // Error handling
+                img.onerror = function() {
+                    this.src = 'pic1.png'; // Fallback to pic1.png if image not found
+                    this.alt = 'Image not found';
+                    this.classList.remove('loading');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
